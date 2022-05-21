@@ -7,13 +7,24 @@
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
-          <h1 class="infoName">{{currentUser.name}}</h1>
-          <span class="infoTweetsNumber">{{currentTweets.length}}則推文</span>
+          <h1 class="infoName">{{ currentUser.name }}</h1>
+          <span class="infoTweetsNumber">{{ userTweets.length }}則推文</span>
         </div>
       </div>
       <UserSelfCard :initialCurrentUser="currentUser" />
       <UserTabs />
-      <UserTweets :initialCurrentTweets="currentTweets" />
+      <UserTweets
+        v-if="$route.path == '/user/self/tweets'"
+        :initialCurrentTweets="userTweets"
+      />
+      <Comments
+        v-if="$route.path == '/user/self/comments'"
+        :currentRepliedTweets="userComments"
+      />
+      <UserLikesTweets
+        v-if="$route.path == '/user/self/likes'"
+        :initialCurrentTweets="userLikes"
+      />
     </div>
     <PopularUsers id="PopularUsers" />
   </div>
@@ -25,9 +36,10 @@ import PopularUsers from "../components/PopularUsers.vue";
 import UserTabs from "../components/UserTabs.vue";
 import UserSelfCard from "../components/UserSelfCard.vue";
 import UserTweets from "../components/UserTweets.vue";
-import usersAPI from "./../apis/users";
+import usersAPI from "../apis/users";
 import { Toast } from "../utility/helpers";
-
+import Comments from "../components/Comments.vue";
+import UserLikesTweets from "../components/UserLikesTweets.vue";
 
 export default {
   components: {
@@ -36,11 +48,15 @@ export default {
     UserTabs,
     UserSelfCard,
     UserTweets,
+    Comments,
+    UserLikesTweets,
   },
 
   data() {
     return {
-      currentTweets: [],
+      userTweets: [],
+      userComments: [],
+      userLikes: [],
       currentUser: {
         Followers: -1,
         Followings: -1,
@@ -63,15 +79,26 @@ export default {
       try {
         const { data } = await usersAPI.getUser({ id });
         this.currentUser = data;
-        const response = await usersAPI.getUserTweets({
+
+        const responseUserTweets = await usersAPI.getUserTweets({
           id,
         });
-        this.currentTweets = response.data
+        this.userTweets = responseUserTweets.data;
+
+        const responseUserComments = await usersAPI.getUserRepliedTweets({
+          id,
+        });
+        this.userComments = responseUserComments.data;
+
+        const responseUserLikes = await usersAPI.getUserLikes({
+          id,
+        });
+        this.userLikes = responseUserLikes.data;
       } catch (error) {
         Toast.fire({
-          icon: 'error',
-          title: '無法取得使用者推文'
-        })
+          icon: "error",
+          title: "無法取得使用者推文",
+        });
       }
     },
   },

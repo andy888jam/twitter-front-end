@@ -47,23 +47,23 @@ const routes = [
     beforeEnter: authorizeIsUser
   },
   {
-    path: '/user/self/tweets',
-    name: 'user-self-tweets',
-    component: () => import('../views/UserSelfTweets.vue'),
+    path: '/user/self/:type',
+    name: 'user-self',
+    component: () => import('../views/UserSelf.vue'),
     beforeEnter: authorizeIsUser
   },
-  {
-    path: '/user/self/comments',
-    name: 'user-self-comments',
-    component: () => import('../views/UserSelfComments.vue'),
-    beforeEnter: authorizeIsUser
-  },
-  {
-    path: '/user/self/likes',
-    name: 'user-self-likes',
-    component: () => import('../views/UserSelfLikes.vue'),
-    beforeEnter: authorizeIsUser
-  },
+  // {
+  //   path: '/user/self/comments',
+  //   name: 'user-self-comments',
+  //   component: () => import('../views/UserSelfComments.vue'),
+  //   beforeEnter: authorizeIsUser
+  // },
+  // {
+  //   path: '/user/self/likes',
+  //   name: 'user-self-likes',
+  //   component: () => import('../views/UserSelfLikes.vue'),
+  //   beforeEnter: authorizeIsUser
+  // },
   {
     path: '/user/:id/tweets',
     name: 'user-tweets',
