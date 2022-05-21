@@ -62,6 +62,7 @@
               :disabled="isProcessing"
               class="followersFollowedBtn"
               v-if="follower.isFollowed"
+              v-show="follower.followerId !== $store.state.currentUser.id"
               @click.stop.prevent="deleteFollowing(follower.followerId)"
             >
               正在跟隨
@@ -71,6 +72,7 @@
               class="followersFollowBtn"
               @click.stop.prevent="addFollowing(follower.followerId)"
               v-else
+              v-show="follower.followerId !== $store.state.currentUser.id"
             >
               跟隨
             </button>

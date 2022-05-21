@@ -65,6 +65,7 @@
               @click.stop.prevent="deleteFollowing(following.followingId)"
               class="followingsFollowedBtn"
               v-if="following.isFollowed"
+              v-show="following.followingId !== $store.state.currentUser.id"
             >
               正在跟隨
             </button>
@@ -73,6 +74,7 @@
               @click.stop.prevent="addFollowing(following.followingId)"
               class="followingsFollowBtn"
               v-else
+              v-show="following.followingId !== $store.state.currentUser.id"
             >
               跟隨
             </button>
