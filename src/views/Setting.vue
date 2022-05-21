@@ -154,7 +154,7 @@ export default {
 
         this.isProcessing = true;
 
-        await usersAPI.editUser({
+        const {data} = await usersAPI.editUser({
           id: this.currentUser.id,
           data: {
             account: this.account,
@@ -165,13 +165,18 @@ export default {
           },
         });
 
+        localStorage.setItem("token", data.token);
+
+        this.$store.commit("setCurrentUser", data.token);
+        this.$store.commit("setToken");
+
+
         Toast.fire({
           icon: "success",
-          title: "使用者資料更改成功，請重新登入",
+          title: "使用者資料更改成功",
         });
 
         this.isProcessing = false;
-        this.$store.commit('revokeAuthentication')
       } catch (error) {
         this.isProcessing = false;
         Toast.fire({

@@ -285,7 +285,7 @@ li {
 
 .followings {
   display: flex;
-  height: 158px;
+  min-height: 158px;
   border-bottom: 1px solid #e6ecf0;
   padding: 16px 30px 0 23px;
 }

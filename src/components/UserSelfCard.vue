@@ -198,10 +198,16 @@ export default {
         const form = e.target
         const formData = new FormData(form)
 
-        await usersAPI.editUser({
+        const {data} = await usersAPI.editUser({
           id: this.initialCurrentUser.id,
           data: formData,
         });
+
+        
+        localStorage.setItem("token", data.token);
+
+        this.$store.commit("setCurrentUser", data.token);
+        this.$store.commit("setToken");
 
         this.userEditModalIsOpen = false;
         this.isProcessing = false
