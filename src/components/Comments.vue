@@ -39,11 +39,11 @@
         <div class="commentLikeBtnGroup">
           <button class="commentBtn">
             <img src="../assets/comment-icon.png" alt="" />
-            <p>0</p>
+            <p class=commentNumber>0</p>
           </button>
           <button class="likeBtn">
             <img src="../assets/like-icon.png" alt="" />
-            <p>0</p>
+            <p class=likedNumber>0</p>
           </button>
         </div>
       </div>
@@ -160,5 +160,10 @@ export default {
 
 .commentBtn {
   padding: 0;
+}
+
+.commentNumber,.likedNumber {
+  padding: 0 0 1px 9.3px;
+  color: #6C757D;
 }
 </style>

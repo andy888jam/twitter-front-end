@@ -24,8 +24,22 @@
       <div class="bellActiveBorder" v-else>
         <img class="bellActive" src="../assets/bell-active.png" alt="" />
       </div>
-      <button class="otherUserFollowedBtn" v-if="true">正在跟隨</button>
-      <button class="otherUserFollowBtn" v-else>跟隨</button>
+      <button
+        :disabled="isProcessing"
+        @click.stop.prevent="deleteFollowing(currentUser.id)"
+        class="otherUserFollowedBtn"
+        v-if="currentUser.isFollowed"
+      >
+        正在跟隨
+      </button>
+      <button
+        :disabled="isProcessing"
+        @click.stop.prevent="addFollowing(currentUser.id)"
+        class="otherUserFollowBtn"
+        v-else
+      >
+        跟隨
+      </button>
     </div>
 
     <div class="userInformation">
@@ -37,26 +51,84 @@
       <router-link
         class="userFollowingsCount"
         :to="{ name: 'user-followings', params: { id: currentUser.id } }"
-        >{{ currentUser.Followings }}個<span>跟隨中</span></router-link
+        >{{ currentUser.Followings }}&nbsp;個<span>跟隨中</span></router-link
       >
       <router-link
         class="userFollowersCount"
         :to="{ name: 'user-followers', params: { id: currentUser.id } }"
-        >{{ currentUser.Followers }}  個<span>跟隨者</span></router-link
+        >{{ currentUser.Followers }}&nbsp;個<span>跟隨者</span></router-link
       >
     </div>
   </div>
 </template>
 
 <script>
+import usersAPI from "../apis/users";
+import { Toast } from "../utility/helpers";
 import { emptyImageFilter } from "../utility/mixins";
 
 export default {
   mixins: [emptyImageFilter],
+  data() {
+    return {
+      isProcessing: false,
+      currentUser: this.initialCurrentUser,
+    };
+  },
   props: {
-    currentUser: {
+    initialCurrentUser: {
       type: Object,
       required: true,
+    },
+  },
+  watch: {
+    initialCurrentUser(newValue) {
+      this.currentUser = {
+        ...this.currentUser,
+        ...newValue,
+      };
+    },
+  },
+  methods: {
+    async addFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.addFollowing({ id });
+
+        this.currentUser.isFollowed = true;
+
+        Toast.fire({
+          icon: "success",
+          title: "跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "跟隨失敗",
+        });
+      }
+    },
+    async deleteFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.deleteFollowing({ id });
+
+        this.currentUser.isFollowed = false;
+
+        Toast.fire({
+          icon: "success",
+          title: "取消跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "取消跟隨失敗",
+        });
+      }
     },
   },
 };

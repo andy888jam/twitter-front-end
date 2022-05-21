@@ -128,12 +128,12 @@
       <router-link
         class="userFollowingsCount"
         :to="{ name: 'user-followings', params: { id: initialCurrentUser.id } }"
-        >{{ initialCurrentUser.Followings }}個<span>跟隨中</span></router-link
+        >{{ initialCurrentUser.Followings }}&nbsp;個<span>跟隨中</span></router-link
       >
       <router-link
         class="userFollowersCount"
         :to="{ name: 'user-followers', params: { id: initialCurrentUser.id } }"
-        >{{ initialCurrentUser.Followers }}個<span>跟隨者</span></router-link
+        >{{ initialCurrentUser.Followers }}&nbsp;個<span>跟隨者</span></router-link
       >
     </div>
   </div>

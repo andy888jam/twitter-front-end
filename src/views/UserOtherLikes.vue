@@ -12,7 +12,7 @@
           <span class="infoTweetsNumber">{{ currentTweets.length }}喜歡</span>
         </div>
       </div>
-      <UserOtherCard :currentUser="currentUser" />
+      <UserOtherCard :initialCurrentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
       <UserLikesTweets :initialCurrentTweets="currentTweets" />
     </div>

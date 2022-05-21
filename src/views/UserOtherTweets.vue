@@ -11,7 +11,7 @@
           <span class="infoTweetsNumber">{{ currentTweets.length }}則推文</span>
         </div>
       </div>
-      <UserOtherCard :currentUser="currentUser" />
+      <UserOtherCard :initialCurrentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
       <UserTweets :initialCurrentTweets="currentTweets" />
     </div>

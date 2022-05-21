@@ -11,7 +11,7 @@
           <span class="infoTweetsNumber">{{ currentTweets.length }}回覆</span>
         </div>
       </div>
-      <UserOtherCard :currentUser="currentUser" />
+      <UserOtherCard :initialCurrentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
       <Comments :currentRepliedTweets="currentTweets" />
     </div>
