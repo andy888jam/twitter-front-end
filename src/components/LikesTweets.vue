@@ -116,7 +116,6 @@ export default {
       this.replyTweetModalIsOpen = false;
     },
     replyTweetModalSubmit() {
-      console.log({ text: this.replyText });
       this.replyText = "";
       this.replyTweetModalIsOpen = false;
     },

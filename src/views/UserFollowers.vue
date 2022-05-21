@@ -52,18 +52,28 @@
         <!-- Content -->
         <div class="followersContent">
           <div class="followersInfo">
-            <router-link
-              :to="{
+            <router-link :to="{
                 name: 'user-other',
                 params: { id: follower.followerId, type: 'tweets' },
-              }"
-              class="followersName"
-              >{{ follower.followerName }}</router-link
+              }" class="followersName">{{
+              follower.followerName
+            }}</router-link>
+            <button
+              :disabled="isProcessing"
+              class="followersFollowedBtn"
+              v-if="follower.isFollowed"
+              @click.stop.prevent="deleteFollowing(follower.followerId)"
             >
-            <button class="followersFollowedBtn" v-if="follower.isFollowed">
               正在跟隨
             </button>
-            <button class="followersFollowBtn" v-else>跟隨</button>
+            <button
+              :disabled="isProcessing"
+              class="followersFollowBtn"
+              @click.stop.prevent="addFollowing(follower.followerId)"
+              v-else
+            >
+              跟隨
+            </button>
           </div>
           <p class="followersText">{{ follower.followerIntroduction }}</p>
         </div>
@@ -88,6 +98,7 @@ export default {
   },
   data() {
     return {
+      isProcessing: false,
       followers: [],
       currentTweets: [],
       user: {
@@ -126,12 +137,8 @@ export default {
     async fetchFollowers(id) {
       try {
         const { data } = await usersAPI.getUserFollowers({ id });
-        if (data.status === "error") {
-          throw new Error(data.message);
-        }
         this.followers = data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
@@ -145,9 +152,7 @@ export default {
           throw new Error(data.message);
         }
         this.user = data;
-        console.log(data);
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
@@ -162,10 +167,53 @@ export default {
         }
         this.currentTweets = data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
+        });
+      }
+    },
+
+    async addFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.addFollowing({ id });
+        const user = this.followers.find((item) => item.followerId === id);
+
+        user.isFollowed = true;
+
+        Toast.fire({
+          icon: "success",
+          title: "跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "跟隨失敗",
+        });
+      }
+    },
+    async deleteFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.deleteFollowing({ id });
+
+        const user = this.followers.find((item) => item.followerId === id);
+
+        user.isFollowed = false;
+
+        Toast.fire({
+          icon: "success",
+          title: "取消跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "取消跟隨失敗",
         });
       }
     },

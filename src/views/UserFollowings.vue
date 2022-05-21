@@ -55,15 +55,27 @@
             <router-link
               :to="{
                 name: 'user-other',
-                params: { id: following.followingId, type: 'tweets' },
+                params: { id: following.followerId, type: 'tweets' },
               }"
               class="followingsName"
               >{{ following.followingName }}</router-link
             >
-            <button class="followingsFollowedBtn" v-if="following.isFollowed">
+            <button
+              :disabled="isProcessing"
+              @click.stop.prevent="deleteFollowing(following.followingId)"
+              class="followingsFollowedBtn"
+              v-if="following.isFollowed"
+            >
               正在跟隨
             </button>
-            <button class="followingsFollowBtn" v-else>跟隨</button>
+            <button
+              :disabled="isProcessing"
+              @click.stop.prevent="addFollowing(following.followingId)"
+              class="followingsFollowBtn"
+              v-else
+            >
+              跟隨
+            </button>
           </div>
           <p class="followingsText">{{ following.followingIntroduction }}</p>
         </div>
@@ -78,6 +90,7 @@ import Navbar from "../components/Navbar.vue";
 import PopularUsers from "../components/PopularUsers.vue";
 import usersAPI from "./../apis/users";
 import { Toast } from "../utility/helpers";
+import store from "../store";
 
 export default {
   components: {
@@ -86,6 +99,7 @@ export default {
   },
   data() {
     return {
+      isProcessing: false,
       followings: [],
       currentTweets: [],
       user: {
@@ -123,12 +137,15 @@ export default {
     async fetchFollowings(id) {
       try {
         const { data } = await usersAPI.getUserFollowings({ id });
-        if (data.status === "error") {
-          throw new Error(data.message);
+        if (store.state.currentUser.id === id) {
+          const newData = data.filter(
+            (following) => following.isFollowed === true
+          );
+          this.followings = newData;
+        } else {
+          this.followings = data;
         }
-        this.followings = data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
@@ -142,9 +159,7 @@ export default {
           throw new Error(data.message);
         }
         this.user = data;
-        console.log(data);
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
@@ -159,10 +174,52 @@ export default {
         }
         this.currentTweets = data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
+        });
+      }
+    },
+    async addFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.addFollowing({ id });
+        const user = this.followings.find((item) => item.followingId === id);
+
+        user.isFollowed = true;
+
+        Toast.fire({
+          icon: "success",
+          title: "跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "跟隨失敗",
+        });
+      }
+    },
+    async deleteFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.deleteFollowing({ id });
+
+        const user = this.followings.find((item) => item.followingId === id);
+
+        user.isFollowed = false;
+
+        Toast.fire({
+          icon: "success",
+          title: "取消跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "取消跟隨失敗",
         });
       }
     },
@@ -328,6 +385,7 @@ li {
   color: #fff;
   font-size: 16px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .followingsFollowBtn {
@@ -339,5 +397,6 @@ li {
   color: #ff6600;
   font-size: 16px;
   font-weight: 400;
+  cursor: pointer;
 }
 </style>
