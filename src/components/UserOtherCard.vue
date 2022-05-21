@@ -202,6 +202,10 @@ export default {
   font-size: 14px;
 }
 
+.userFollowingsCount {
+  margin-right: 20px;
+}
+
 span {
   color: #6c757d;
 }

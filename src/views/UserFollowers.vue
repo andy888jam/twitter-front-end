@@ -3,9 +3,7 @@
     <Navbar id="Navbar" />
     <div v-if="user.id !== -1" class="UserFollowersMain">
       <div class="userTitle">
-        <router-link
-          :to="{ name: 'user-tweets', params: { id: user.id } }"
-        >
+        <router-link :to="{ name: 'user-tweets', params: { id: user.id } }">
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
@@ -31,10 +29,18 @@
         </li>
       </ul>
       <!-- 跟隨者列表 -->
-      <div class="followers" v-for="follower in followers" :key="follower.followerId">
+      <div
+        class="followers"
+        v-for="follower in followers"
+        :key="follower.followerId"
+      >
         <!-- image -->
         <router-link to="">
-          <img :src="follower.followerAvatar | emptyImage" class="followersImage" alt="" />
+          <img
+            :src="follower.followerAvatar | emptyImage"
+            class="followersImage"
+            alt=""
+          />
         </router-link>
         <!-- Content -->
         <div class="followersContent">
@@ -42,10 +48,22 @@
             <router-link to="" class="followersName">{{
               follower.followerName
             }}</router-link>
-            <button class="followersFollowedBtn" v-if="follower.isFollowed">
+            <button
+              :disabled="isProcessing"
+              class="followersFollowedBtn"
+              v-if="follower.isFollowed"
+              @click.stop.prevent="deleteFollowing(follower.followerId)"
+            >
               正在跟隨
             </button>
-            <button class="followersFollowBtn" v-else>跟隨</button>
+            <button
+              :disabled="isProcessing"
+              class="followersFollowBtn"
+              @click.stop.prevent="addFollowing(follower.followerId)"
+              v-else
+            >
+              跟隨
+            </button>
           </div>
           <p class="followersText">{{ follower.followerIntroduction }}</p>
         </div>
@@ -70,6 +88,7 @@ export default {
   },
   data() {
     return {
+      isProcessing: false,
       followers: [],
       currentTweets: [],
       user: {
@@ -108,12 +127,8 @@ export default {
     async fetchFollowers(id) {
       try {
         const { data } = await usersAPI.getUserFollowers({ id });
-        if (data.status === "error") {
-          throw new Error(data.message);
-        }
         this.followers = data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
@@ -127,9 +142,7 @@ export default {
           throw new Error(data.message);
         }
         this.user = data;
-        console.log(data);
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
@@ -144,10 +157,53 @@ export default {
         }
         this.currentTweets = data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得資料，請稍候再試",
+        });
+      }
+    },
+
+    async addFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.addFollowing({ id });
+        const user = this.followers.find((item) => item.followerId === id);
+
+        user.isFollowed = true;
+
+        Toast.fire({
+          icon: "success",
+          title: "跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "跟隨失敗",
+        });
+      }
+    },
+    async deleteFollowing(id) {
+      try {
+        this.isProcessing = true;
+        await usersAPI.deleteFollowing({ id });
+
+        const user = this.followers.find((item) => item.followerId === id);
+
+        user.isFollowed = false;
+
+        Toast.fire({
+          icon: "success",
+          title: "取消跟隨成功",
+        });
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "取消跟隨失敗",
         });
       }
     },

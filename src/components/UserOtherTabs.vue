@@ -47,7 +47,6 @@ export default {
         ...this.newCurrentUser,
         ...newValue,
       };
-      console.log(this.currentUser)
     },
   },
 };
