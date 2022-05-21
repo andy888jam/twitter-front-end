@@ -2,7 +2,7 @@
   <div class="TweetDetail">
     <div class="tweetContent">
       <div class="tweetUser">
-        <router-link to="">
+        <router-link :to="{name: 'user-tweets', params: {id: initialTweet.User.id}}">
           <img class="tweetUserImage" :src="initialTweet.User.avatar | emptyImage" alt="" />
           <div class="tweetUserNameGroup">
             <p class="tweetUserName">{{ initialTweet.User.name }}</p>
@@ -297,6 +297,7 @@ export default {
   font-weight: 400;
   color: #171725;
   line-height: 36px;
+  word-break: break-all;
 }
 
 .tweetCreatedAt {
@@ -501,6 +502,7 @@ export default {
 }
 
 .replyTweetText {
+  word-break: break-all;
   width: 528px;
   height: 78px;
   margin-top: 8px;

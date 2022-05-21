@@ -2,38 +2,38 @@
   <div class="Comments">
     <div
       class="comment"
-      v-for="(comment, index) in currentRepliedTweets"
-      :key="comment.id || index"
+      v-for="comment in currentRepliedTweets"
+      :key="comment.id"
     >
       <div class="commentUserImage">
         <router-link
-          :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.userId} }"
+          :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.User.id} }"
         >
-          <img :src="comment.userAvatar | emptyImage" alt="" />
+          <img :src="(comment.userAvatar || comment.User.avatar) | emptyImage" alt="" />
         </router-link>
       </div>
       <div class="commentContent">
         <div class="commentUserNameGroup">
           <router-link
-            :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.userId} }"
+            :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.User.id} }"
             class="commentUserName"
-            >{{ comment.userName }}</router-link
+            >{{ comment.userName || comment.User.name}}</router-link
           >
           <router-link
-            :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.userId} }"
+            :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.User.id} }"
             class="commentUserAccount"
-            >＠{{ comment.userAccount }}</router-link
+            >＠{{ comment.userAccount || comment.User.account }}</router-link
           >
           <p class="commentCreatedAt">・{{ comment.createdAt | fromNow }}</p>
         </div>
         <div class="commentFor">
           <p>
-            回覆 <span>@{{comment.replyUserAccount || comment.replyAccount }}</span>
+            回覆 <span>@{{comment.replyUserAccount || comment.Tweet.User.account }}</span>
           </p>
         </div>
         <div class="commentText">
           <p>
-            {{ comment.comment }}
+            <router-link :to="{name: 'tweet', params: {id: comment.TweetId ||comment.Tweet.id}}"> {{ comment.comment }} </router-link>
           </p>
         </div>
         <div class="commentLikeBtnGroup">
@@ -132,6 +132,11 @@ export default {
   font-weight: 400;
   color: #171725;
   word-break: break-all;
+}
+
+.commentText a {
+  text-decoration: none;
+  color: black;
 }
 
 .commentLikeBtnGroup {

@@ -5,10 +5,10 @@
       v-for="tweet in initialCurrentTweets"
       :key="tweet.id"
     >
-      <router-link :to="{ name: 'user-tweets', params: { id: tweet.User.id } }">
+      <router-link :to="{ name: 'user-tweets', params: { id: tweet.Tweet.User.id } }">
         <img
           class="singleTweetUserImage"
-          :src="tweet.User.avatar | emptyImage"
+          :src="tweet.Tweet.User.avatar | emptyImage"
           alt=""
         />
       </router-link>
@@ -16,51 +16,51 @@
         <div class="singleTweetUserNameGroup">
           <router-link
             class="singleTweetUserName"
-            :to="{ name: 'user-tweets', params: { id: tweet.User.id } }"
-            >{{ tweet.User.name }}</router-link
+            :to="{ name: 'user-tweets', params: { id: tweet.Tweet.User.id } }"
+            >{{ tweet.Tweet.User.name }}</router-link
           >
           <router-link
             class="singleTweetUserAccount"
-            :to="{ name: 'user-tweets', params: { id: tweet.User.id } }"
-            >@{{ tweet.User.account }}</router-link
+            :to="{ name: 'user-tweets', params: { id: tweet.Tweet.User.id } }"
+            >@{{ tweet.Tweet.User.account }}</router-link
           >
-          <p class="singleTweetCreatedAt">・{{ tweet.createdAt | fromNow }}</p>
+          <p class="singleTweetCreatedAt">・{{ tweet.Tweet.createdAt | fromNow }}</p>
         </div>
         <p class="singleTweetText">
-          <router-link :to="{ name: 'tweet', params: { id: tweet.id } }">{{
-            tweet.description
+          <router-link :to="{ name: 'tweet', params: { id: tweet.Tweet.id } }">{{
+            tweet.Tweet.description
           }}</router-link>
         </p>
         <div class="singleTweetBtnGroup">
           <button
             class="singleTweetBtn"
-            @click.stop.prevent="openReplyTweetModal(tweet.id)"
+            @click.stop.prevent="openReplyTweetModal(tweet.Tweet.id)"
             :disabled="isProcessing"
           >
             <img src="../assets/comment-icon.png" alt="" />
-            <p>{{ tweet.Replies }}</p>
+            <p>{{ tweet.Tweet.Replies.length }}</p>
           </button>
 
           <button
-            @click.stop.prevent="deleteLike(tweet.id)"
+            @click.stop.prevent="deleteLike(tweet.Tweet.id)"
             :disabled="isProcessing"
             v-if="tweet.isLiked"
             class="singleTweetBtn"
           >
             <img src="../assets/like-icon-active.png" alt="" />
             <p>
-              {{ tweet.Likes }}
+              {{ tweet.Tweet.Likes.length }}
             </p>
           </button>
           <button
-            @click.stop.prevent="addLike(tweet.id)"
+            @click.stop.prevent="addLike(tweet.Tweet.id)"
             :disabled="isProcessing"
             v-else
             class="singleTweetBtn"
           >
             <img src="../assets/like-icon.png" alt="" />
             <p>
-              {{ tweet.Likes }}
+              {{ tweet.Tweet.Likes.length }}
             </p>
           </button>
         </div>
@@ -282,9 +282,9 @@ export default {
         this.isProcessing = true;
         await tweetsAPI.addLike({ id });
 
-        const tweet = this.initialCurrentTweets.find((item) => (item.id || item.TweetId) === id);
+        const tweet = this.initialCurrentTweets.find((item) => item.Tweet.id === id);
         tweet.isLiked = true;
-        tweet.Likes++;
+        tweet.tweetLikesCount++;
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
@@ -299,9 +299,9 @@ export default {
         this.isProcessing = true;
         await tweetsAPI.deleteLike({ id });
 
-        const tweet = this.initialCurrentTweets.find((item) => (item.id || item.TweetId) === id);
+        const tweet = this.initialCurrentTweets.find((item) => item.Tweet.id === id);
         tweet.isLiked = false;
-        tweet.Likes--;
+        tweet.tweetLikesCount--;
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
@@ -368,6 +368,7 @@ export default {
 }
 
 .singleTweetText {
+  word-break: break-all;
   width: 100%;
   min-height: 78px;
   margin-top: 8px;
@@ -560,6 +561,7 @@ export default {
 }
 
 .replyTweetText {
+  word-break: break-all;
   width: 528px;
   height: 78px;
   margin-top: 8px;

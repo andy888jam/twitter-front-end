@@ -282,7 +282,7 @@ export default {
         this.isProcessing = true;
         await tweetsAPI.addLike({ id });
 
-        const tweet = this.initialCurrentTweets.find((item) => (item.id || item.TweetId) === id);
+        const tweet = this.initialCurrentTweets.find((item) => item.id === id);
         tweet.isLiked = true;
         tweet.Likes++;
         this.isProcessing = false;
@@ -299,7 +299,7 @@ export default {
         this.isProcessing = true;
         await tweetsAPI.deleteLike({ id });
 
-        const tweet = this.initialCurrentTweets.find((item) => (item.id || item.TweetId) === id);
+        const tweet = this.initialCurrentTweets.find((item) => item.id === id);
         tweet.isLiked = false;
         tweet.Likes--;
         this.isProcessing = false;
@@ -368,6 +368,7 @@ export default {
 }
 
 .singleTweetText {
+  word-break: break-all;
   width: 100%;
   min-height: 78px;
   margin-top: 8px;
@@ -560,6 +561,7 @@ export default {
 }
 
 .replyTweetText {
+  word-break: break-all;
   width: 528px;
   height: 78px;
   margin-top: 8px;
