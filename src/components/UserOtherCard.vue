@@ -200,6 +200,7 @@ export default {
   text-decoration: none;
   color: black;
   font-size: 14px;
+  margin-right: 20px;
 }
 
 span {

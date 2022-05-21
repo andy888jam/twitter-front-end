@@ -1,7 +1,7 @@
 <template>
   <div class="Tweet">
     <Navbar id="Navbar" />
-    <div class="tweetSection">
+    <div v-show="tweet.id !== -1" class="tweetSection">
       <div class="tweetSectionContent">
         <div class="tweetTitle">
           <router-link to="/main">
