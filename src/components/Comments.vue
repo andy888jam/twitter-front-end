@@ -7,20 +7,32 @@
     >
       <div class="commentUserImage">
         <router-link
-          :to="{ name: 'user-other', params: { id: comment.UserId || comment.User.id , type: 'tweets'} }"
+          :to="{
+            name: 'user-other',
+            params: { id: comment.UserId || comment.User.id, type: 'tweets' },
+          }"
         >
-          <img :src="(comment.userAvatar || comment.User.avatar) | emptyImage" alt="" />
+          <img
+            :src="(comment.userAvatar || comment.User.avatar) | emptyImage"
+            alt=""
+          />
         </router-link>
       </div>
       <div class="commentContent">
         <div class="commentUserNameGroup">
           <router-link
-            :to="{ name: 'user-other', params: { id: comment.UserId || comment.User.id , type: 'tweets'} }"
+            :to="{
+              name: 'user-other',
+              params: { id: comment.UserId || comment.User.id, type: 'tweets' },
+            }"
             class="commentUserName"
-            >{{ comment.userName || comment.User.name}}</router-link
+            >{{ comment.userName || comment.User.name }}</router-link
           >
           <router-link
-            :to="{ name: 'user-other', params: { id: comment.UserId || comment.User.id , type: 'tweets'} }"
+            :to="{
+              name: 'user-other',
+              params: { id: comment.UserId || comment.User.id, type: 'tweets' },
+            }"
             class="commentUserAccount"
             >＠{{ comment.userAccount || comment.User.account }}</router-link
           >
@@ -28,22 +40,34 @@
         </div>
         <div class="commentFor">
           <p>
-            回覆 <span>@{{comment.replyUserAccount || comment.Tweet.User.account }}</span>
+            回覆
+            <span
+              >@{{
+                comment.replyUserAccount || comment.Tweet.User.account
+              }}</span
+            >
           </p>
         </div>
         <div class="commentText">
           <p>
-            <router-link :to="{name: 'tweet', params: {id: comment.TweetId ||comment.Tweet.id}}"> {{ comment.comment }} </router-link>
+            <router-link
+              :to="{
+                name: 'tweet',
+                params: { id: comment.TweetId || comment.Tweet.id },
+              }"
+            >
+              {{ comment.comment }}
+            </router-link>
           </p>
         </div>
         <div class="commentLikeBtnGroup">
           <button class="commentBtn">
             <img src="../assets/comment-icon.png" alt="" />
-            <p class=commentNumber>0</p>
+            <p class="commentNumber">0</p>
           </button>
           <button class="likeBtn">
             <img src="../assets/like-icon.png" alt="" />
-            <p class=likedNumber>0</p>
+            <p class="likedNumber">0</p>
           </button>
         </div>
       </div>
@@ -162,8 +186,9 @@ export default {
   padding: 0;
 }
 
-.commentNumber,.likedNumber {
+.commentNumber,
+.likedNumber {
   padding: 0 0 1px 9.3px;
-  color: #6C757D;
+  color: #6c757d;
 }
 </style>

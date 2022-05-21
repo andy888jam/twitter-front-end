@@ -88,7 +88,7 @@ export default {
         const responseUserComments = await usersAPI.getUserRepliedTweets({
           id,
         });
-        this.userComments = responseUserComments.data;
+        this.userComments = responseUserComments.data.filter((item) => item.Tweet !== null ) ;
 
         const responseUserLikes = await usersAPI.getUserLikes({
           id,
