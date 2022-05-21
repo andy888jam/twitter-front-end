@@ -2,17 +2,17 @@
   <div class="PopularUsers">
     <h1 class="popularUsersTitle">跟隨誰</h1>
     <div class="popularUser" v-for="user in popularUsers" :key="user.id">
-      <router-link :to="{ name: 'user-tweets', params: { id: user.id } }">
+      <router-link :to="{ name: 'user-other', params: { id: user.id , type: 'tweets' } }">
         <img :src="user.avatar | emptyImage" class="popularUsersImage" alt="" />
       </router-link>
       <div class="popularUsersNameGroup">
         <router-link
-          :to="{ name: 'user-tweets', params: { id: user.id } }"
+          :to="{ name: 'user-other', params: { id: user.id , type: 'tweets' } }"
           class="popularUsersName"
           >{{ user | nameIsTooLong }}</router-link
         >
         <router-link
-          :to="{ name: 'user-tweets', params: { id: user.id } }"
+          :to="{ name: 'user-other', params: { id: user.id , type: 'tweets' } }"
           class="popularUsersAccount"
           >@{{ user | accountIsTooLong }}</router-link
         >

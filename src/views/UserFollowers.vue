@@ -3,7 +3,9 @@
     <Navbar id="Navbar" />
     <div v-if="user.id !== -1" class="UserFollowersMain">
       <div class="userTitle">
-        <router-link :to="{ name: 'user-tweets', params: { id: user.id } }">
+        <router-link
+          :to="{ name: 'user-other', params: { id: user.id, type: 'tweets' } }"
+        >
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
@@ -35,7 +37,12 @@
         :key="follower.followerId"
       >
         <!-- image -->
-        <router-link to="">
+        <router-link
+          :to="{
+            name: 'user-other',
+            params: { id: follower.followerId, type: 'tweets' },
+          }"
+        >
           <img
             :src="follower.followerAvatar | emptyImage"
             class="followersImage"
@@ -45,7 +52,10 @@
         <!-- Content -->
         <div class="followersContent">
           <div class="followersInfo">
-            <router-link to="" class="followersName">{{
+            <router-link :to="{
+                name: 'user-other',
+                params: { id: follower.followerId, type: 'tweets' },
+              }" class="followersName">{{
               follower.followerName
             }}</router-link>
             <button
@@ -354,6 +364,10 @@ li {
   font-size: 16px;
   line-height: 26px;
   color: #171725;
+}
+
+.followersText {
+  word-break: break-all;
 }
 
 .followersFollowedBtn {

@@ -200,6 +200,7 @@ export default {
   text-decoration: none;
   color: black;
   font-size: 14px;
+  margin-right: 20px;
 }
 
 .userFollowingsCount {
@@ -266,7 +267,7 @@ span {
   height: 40px;
   border-radius: 50px;
   border: 1px solid #ff6600;
-  background-color: #f5f8fa;
+  background-color: #fff;
   color: #ff6600;
   font-size: 16px;
   font-weight: 400;

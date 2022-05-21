@@ -3,7 +3,9 @@
     <Navbar id="Navbar" />
     <div class="UserFollowingsMain">
       <div class="userTitle">
-        <router-link :to="{ name: 'user-tweets', params: { id: user.id } }">
+        <router-link
+          :to="{ name: 'user-other', params: { id: user.id, type: 'tweets' } }"
+        >
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
@@ -35,7 +37,12 @@
         :key="following.followingId"
       >
         <!-- image -->
-        <router-link to="">
+        <router-link
+          :to="{
+            name: 'user-other',
+            params: { id: following.followingId, type: 'tweets' },
+          }"
+        >
           <img
             :src="following.followingAvatar"
             class="followingsImage"
@@ -45,9 +52,14 @@
         <!-- Content -->
         <div class="followingsContent">
           <div class="followingsInfo">
-            <router-link to="" class="followingsName">{{
-              following.followingName
-            }}</router-link>
+            <router-link
+              :to="{
+                name: 'user-other',
+                params: { id: following.followerId, type: 'tweets' },
+              }"
+              class="followingsName"
+              >{{ following.followingName }}</router-link
+            >
             <button
               :disabled="isProcessing"
               @click.stop.prevent="deleteFollowing(following.followingId)"
@@ -350,6 +362,10 @@ li {
 .followingsInfo {
   display: flex;
   justify-content: space-between;
+}
+
+.followingsText {
+  word-break: break-all;
 }
 
 .followingsName {

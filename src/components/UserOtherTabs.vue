@@ -4,21 +4,21 @@
       <li>
         <router-link
           class="tweet"
-          :to="{ name: 'user-tweets', params: { id: newCurrentUser.id } }"
+          :to="{ name: 'user-other', params: { id: newCurrentUser.id , type: 'tweets' } }"
           >推文</router-link
         >
       </li>
       <li>
         <router-link
           class="response"
-          :to="{ name: 'user-comments', params: { id: newCurrentUser.id } }"
+          :to="{ name: 'user-other', params: { id: newCurrentUser.id , type: 'comments' } }"
           >回覆</router-link
         >
       </li>
       <li>
         <router-link
           class="likedContent"
-          :to="{ name: 'user-likes', params: { id: newCurrentUser.id } }"
+          :to="{ name: 'user-other', params: { id: newCurrentUser.id , type: 'likes' } }"
           >喜歡的內容</router-link
         >
       </li>

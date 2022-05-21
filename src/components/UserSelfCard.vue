@@ -308,6 +308,7 @@ export default {
 }
 
 .userDescription {
+  word-break: break-all;
   margin-top: 6px;
   font-size: 14px;
   line-height: 22px;

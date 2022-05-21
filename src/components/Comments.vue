@@ -7,7 +7,7 @@
     >
       <div class="commentUserImage">
         <router-link
-          :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.User.id} }"
+          :to="{ name: 'user-other', params: { id: comment.UserId || comment.User.id , type: 'tweets'} }"
         >
           <img :src="(comment.userAvatar || comment.User.avatar) | emptyImage" alt="" />
         </router-link>
@@ -15,12 +15,12 @@
       <div class="commentContent">
         <div class="commentUserNameGroup">
           <router-link
-            :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.User.id} }"
+            :to="{ name: 'user-other', params: { id: comment.UserId || comment.User.id , type: 'tweets'} }"
             class="commentUserName"
             >{{ comment.userName || comment.User.name}}</router-link
           >
           <router-link
-            :to="{ name: 'user-tweets', params: { id: comment.UserId || comment.User.id} }"
+            :to="{ name: 'user-other', params: { id: comment.UserId || comment.User.id , type: 'tweets'} }"
             class="commentUserAccount"
             >＠{{ comment.userAccount || comment.User.account }}</router-link
           >
