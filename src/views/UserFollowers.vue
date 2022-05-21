@@ -1,13 +1,15 @@
 <template>
   <div class="UserSelfContainer">
     <Navbar id="Navbar" />
-    <div class="UserFollowersMain">
+    <div v-if="user.id !== -1" class="UserFollowersMain">
       <div class="userTitle">
-        <router-link :to="{ name: 'user-tweets', params: currentUser.id }">
+        <router-link
+          :to="{ name: 'user-tweets', params: { id: user.id } }"
+        >
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
-          <h1 class="infoName">{{ currentUser.name }}</h1>
+          <h1 class="infoName">{{ user.name }}</h1>
           <span class="infoTweetsNumber">{{ currentTweets.length }}則推文</span>
         </div>
       </div>
@@ -16,36 +18,36 @@
         <li>
           <router-link
             class="tabsFollowers"
-            :to="{ name: 'user-followers', params: { id: currentUser.id } }"
+            :to="{ name: 'user-followers', params: { id: user.id } }"
             >追隨者</router-link
           >
         </li>
         <li>
           <router-link
             class="tabsFollowings"
-            :to="{ name: 'user-followings', params: { id: currentUser.id } }"
+            :to="{ name: 'user-followings', params: { id: user.id } }"
             >正在追隨</router-link
           >
         </li>
       </ul>
       <!-- 跟隨者列表 -->
-      <div class="followers" v-for="user in followers" :key="user.followerId">
+      <div class="followers" v-for="follower in followers" :key="follower.followerId">
         <!-- image -->
         <router-link to="">
-          <img :src="user.followerAvatar" class="followersImage" alt="" />
+          <img :src="follower.followerAvatar | emptyImage" class="followersImage" alt="" />
         </router-link>
         <!-- Content -->
         <div class="followersContent">
           <div class="followersInfo">
             <router-link to="" class="followersName">{{
-              user.followerName
+              follower.followerName
             }}</router-link>
-            <button class="followersFollowedBtn" v-if="user.isFollowed">
+            <button class="followersFollowedBtn" v-if="follower.isFollowed">
               正在跟隨
             </button>
             <button class="followersFollowBtn" v-else>跟隨</button>
           </div>
-          <p class="followersText">{{ user.followerIntroduction }}</p>
+          <p class="followersText">{{ follower.followerIntroduction }}</p>
         </div>
       </div>
     </div>
@@ -56,11 +58,12 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import PopularUsers from "../components/PopularUsers.vue";
-
 import usersAPI from "./../apis/users";
 import { Toast } from "../utility/helpers";
+import { emptyImageFilter } from "../utility/mixins";
 
 export default {
+  mixins: [emptyImageFilter],
   components: {
     Navbar,
     PopularUsers,
@@ -69,7 +72,21 @@ export default {
     return {
       followers: [],
       currentTweets: [],
-      currentUser: {},
+      user: {
+        Followers: -1,
+        Followings: -1,
+        account: "",
+        avatar: "",
+        cover: "",
+        createdAt: "",
+        email: "",
+        id: -1,
+        introduction: "",
+        isFollowed: false,
+        name: "",
+        role: "",
+        updatedAt: "",
+      },
     };
   },
 
@@ -109,7 +126,7 @@ export default {
         if (data.status === "error") {
           throw new Error(data.message);
         }
-        this.currentUser = data;
+        this.user = data;
         console.log(data);
       } catch (error) {
         console.log("error", error);
@@ -213,7 +230,7 @@ li {
 }
 
 .tabsFollowers,
-.tabsFollowings{
+.tabsFollowings {
   text-decoration: none;
   font-weight: 700;
   font-size: 15px;
@@ -222,11 +239,11 @@ li {
 }
 
 .tabsFollowers {
-   padding-left: 45px;
+  padding-left: 45px;
 }
 
 .tabsFollowings {
-  margin-left:70px;
+  margin-left: 70px;
 }
 
 .tabsFollowers.active,
@@ -261,6 +278,7 @@ li {
 .followersImage {
   width: 50px;
   height: 50px;
+  object-fit: cover;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -299,7 +317,7 @@ li {
   height: 40px;
   border-radius: 50px;
   border: 1px solid #ff6600;
-  background-color: #f5f8fa;
+  background-color: #fff;
   color: #ff6600;
   font-size: 16px;
   font-weight: 400;

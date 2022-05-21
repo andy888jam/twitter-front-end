@@ -3,11 +3,11 @@
     <Navbar id="Navbar" />
     <div class="UserFollowingsMain">
       <div class="userTitle">
-        <router-link :to="{ name: 'user-tweets', params: currentUser.id }">
+        <router-link :to="{ name: 'user-tweets', params: {id: user.id} }">
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
-          <h1 class="infoName">{{ currentUser.name }}</h1>
+          <h1 class="infoName">{{ user.name }}</h1>
           <span class="infoTweetsNumber">{{ currentTweets.length }}則推文</span>
         </div>
       </div>
@@ -16,14 +16,14 @@
         <li>
           <router-link
             class="tabsFollowers"
-            :to="{ name: 'user-followers', params: { id: currentUser.id } }"
+            :to="{ name: 'user-followers', params: { id: user.id } }"
             >追隨者</router-link
           >
         </li>
         <li>
           <router-link
             class="tabsFollowings"
-            :to="{ name: 'user-followings', params: { id: currentUser.id } }"
+            :to="{ name: 'user-followings', params: { id: user.id } }"
             >正在追隨</router-link
           >
         </li>
@@ -31,25 +31,25 @@
       <!-- 跟隨者列表 -->
       <div
         class="followings"
-        v-for="user in followings"
-        :key="user.followingId"
+        v-for="following in followings"
+        :key="following.followingId"
       >
         <!-- image -->
         <router-link to="">
-          <img :src="user.followingAvatar" class="followingsImage" alt="" />
+          <img :src="following.followingAvatar" class="followingsImage" alt="" />
         </router-link>
         <!-- Content -->
         <div class="followingsContent">
           <div class="followingsInfo">
             <router-link to="" class="followingsName">{{
-              user.followingName
+              following.followingName
             }}</router-link>
-            <button class="followingsFollowedBtn" v-if="user.isFollowed">
+            <button class="followingsFollowedBtn" v-if="following.isFollowed">
               正在跟隨
             </button>
             <button class="followingsFollowBtn" v-else>跟隨</button>
           </div>
-          <p class="followingsText">{{ user.followingIntroduction }}</p>
+          <p class="followingsText">{{ following.followingIntroduction }}</p>
         </div>
       </div>
     </div>
@@ -60,7 +60,6 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import PopularUsers from "../components/PopularUsers.vue";
-
 import usersAPI from "./../apis/users";
 import { Toast } from "../utility/helpers";
 
@@ -73,7 +72,21 @@ export default {
     return {
       followings: [],
       currentTweets: [],
-      currentUser: {},
+      user: {
+        Followers: -1,
+        Followings: -1,
+        account: "",
+        avatar: "",
+        cover: "",
+        createdAt: "",
+        email: "",
+        id: -1,
+        introduction: "",
+        isFollowed: false,
+        name: "",
+        role: "",
+        updatedAt: "",
+      },
     };
   },
   beforeRouteUpdate(to, from, next) {
@@ -112,7 +125,7 @@ export default {
         if (data.status === "error") {
           throw new Error(data.message);
         }
-        this.currentUser = data;
+        this.user = data;
         console.log(data);
       } catch (error) {
         console.log("error", error);
@@ -265,6 +278,7 @@ li {
 .followingsImage {
   width: 50px;
   height: 50px;
+  object-fit: cover;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -302,7 +316,7 @@ li {
   height: 40px;
   border-radius: 50px;
   border: 1px solid #ff6600;
-  background-color: #f5f8fa;
+  background-color: #fff;
   color: #ff6600;
   font-size: 16px;
   font-weight: 400;
