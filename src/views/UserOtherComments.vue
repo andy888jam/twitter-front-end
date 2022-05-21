@@ -13,7 +13,7 @@
       </div>
       <UserOtherCard :currentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
-      <Comments :currentRepliedTweets="currentRepliedTweets" />
+      <Comments :currentRepliedTweets="currentTweets" />
     </div>
     <PopularUsers id="PopularUsers" />
   </div>
@@ -25,7 +25,6 @@ import PopularUsers from "../components/PopularUsers.vue";
 import UserOtherTabs from "../components/UserOtherTabs.vue";
 import UserOtherCard from "../components/UserOtherCard.vue";
 import Comments from "../components/Comments.vue";
-
 import usersAPI from "./../apis/users";
 import { Toast } from "../utility/helpers";
 
@@ -39,55 +38,35 @@ export default {
   },
   data() {
     return {
-      currentRepliedTweets: [],
       currentTweets: [],
-      currentUser: {},
+      currentUser: {
+        Followers: -1,
+        Followings: -1,
+        account: "",
+        avatar: "",
+        cover: "",
+        createdAt: "",
+        email: "",
+        id: -1,
+        introduction: "",
+        name: "",
+        role: "",
+        updatedAt: "",
+      },
     };
   },
 
   methods: {
     async fetchData(id) {
       try {
-        const { data } = await usersAPI.getUserRepliedTweets({ id });
-        if (data.status === "error") {
-          throw new Error(data.message);
-        }
-        this.currentRepliedTweets = data;
-      } catch (error) {
-        console.log("error", error);
-        Toast.fire({
-          icon: "error",
-          title: "無法取得使用者推文，請稍候再試",
-        });
-      }
-    },
-    async fetchUser(id) {
-      try {
         const { data } = await usersAPI.getUser({ id });
-        if (data.status === "error") {
-          throw new Error(data.message);
-        }
-        this.currentUser = { ...data };
+        this.currentUser = data;
+        const response = await usersAPI.getUserRepliedTweets({ id });
+        this.currentTweets = response.data;
       } catch (error) {
-        console.log("error", error);
         Toast.fire({
           icon: "error",
-          title: "無法取得使用者資料，請稍候再試",
-        });
-      }
-    },
-    async fetchTweets(id) {
-      try {
-        const { data } = await usersAPI.getUserTweets({ id });
-        if (data.status === "error") {
-          throw new Error(data.message);
-        }
-        this.currentTweets = data;
-      } catch (error) {
-        console.log("error", error);
-        Toast.fire({
-          icon: "error",
-          title: "無法取得資料，請稍候再試",
+          title: "無法取得該使用者回覆，請稍候再試",
         });
       }
     },
@@ -96,15 +75,11 @@ export default {
   created() {
     const { id } = this.$route.params;
     this.fetchData(id);
-    this.fetchUser(id);
-    this.fetchTweets(id);
   },
 
   beforeRouteUpdate(to, from, next) {
     const { id } = to.params;
     this.fetchData(id);
-    this.fetchUser(id);
-    this.fetchTweets(id);
     next();
   },
 };

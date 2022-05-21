@@ -14,7 +14,7 @@
       </div>
       <UserOtherCard :currentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
-      <AllTweets :initialCurrentTweets="currentTweets" />
+      <UserLikesTweets :initialCurrentTweets="currentTweets" />
     </div>
     <PopularUsers id="PopularUsers" />
   </div>
@@ -25,8 +25,7 @@ import Navbar from "../components/Navbar.vue";
 import PopularUsers from "../components/PopularUsers.vue";
 import UserOtherTabs from "../components/UserOtherTabs.vue";
 import UserOtherCard from "../components/UserOtherCard.vue";
-import AllTweets from "../components/AllTweets.vue";
-
+import UserLikesTweets from "../components/UserLikesTweets.vue";
 import usersAPI from "./../apis/users";
 import { Toast } from "../utility/helpers";
 
@@ -36,7 +35,7 @@ export default {
     PopularUsers,
     UserOtherTabs,
     UserOtherCard,
-    AllTweets,
+    UserLikesTweets,
   },
 
   data() {

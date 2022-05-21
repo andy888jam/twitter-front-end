@@ -13,7 +13,7 @@
       </div>
       <UserOtherCard :currentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
-      <AllTweets :initialCurrentTweets="currentTweets" />
+      <UserTweets :initialCurrentTweets="currentTweets" />
     </div>
     <PopularUsers id="PopularUsers" />
   </div>
@@ -24,8 +24,7 @@ import Navbar from "../components/Navbar.vue";
 import PopularUsers from "../components/PopularUsers.vue";
 import UserOtherTabs from "../components/UserOtherTabs.vue";
 import UserOtherCard from "../components/UserOtherCard.vue";
-import AllTweets from "../components/AllTweets.vue";
-
+import UserTweets from "../components/UserTweets.vue";
 import usersAPI from "./../apis/users";
 import { Toast } from "../utility/helpers";
 
@@ -35,7 +34,7 @@ export default {
     PopularUsers,
     UserOtherTabs,
     UserOtherCard,
-    AllTweets,
+    UserTweets,
   },
 
   data() {
@@ -70,7 +69,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法取得使用者喜歡的內容",
+          title: "無法取得該使用者推文",
         });
       }
     },
