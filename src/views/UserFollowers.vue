@@ -4,7 +4,7 @@
     <div v-if="user.id !== -1" class="UserFollowersMain">
       <div class="userTitle">
         <router-link
-          :to="{ name: 'user-tweets', params: { id: user.id } }"
+          :to="{ name: 'user-other', params: { id: user.id, type: 'tweets' } }"
         >
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
@@ -31,17 +31,35 @@
         </li>
       </ul>
       <!-- 跟隨者列表 -->
-      <div class="followers" v-for="follower in followers" :key="follower.followerId">
+      <div
+        class="followers"
+        v-for="follower in followers"
+        :key="follower.followerId"
+      >
         <!-- image -->
-        <router-link to="">
-          <img :src="follower.followerAvatar | emptyImage" class="followersImage" alt="" />
+        <router-link
+          :to="{
+            name: 'user-other',
+            params: { id: follower.followerId, type: 'tweets' },
+          }"
+        >
+          <img
+            :src="follower.followerAvatar | emptyImage"
+            class="followersImage"
+            alt=""
+          />
         </router-link>
         <!-- Content -->
         <div class="followersContent">
           <div class="followersInfo">
-            <router-link to="" class="followersName">{{
-              follower.followerName
-            }}</router-link>
+            <router-link
+              :to="{
+                name: 'user-other',
+                params: { id: follower.followerId, type: 'tweets' },
+              }"
+              class="followersName"
+              >{{ follower.followerName }}</router-link
+            >
             <button class="followersFollowedBtn" v-if="follower.isFollowed">
               正在跟隨
             </button>
@@ -298,6 +316,10 @@ li {
   font-size: 16px;
   line-height: 26px;
   color: #171725;
+}
+
+.followersText {
+  word-break: break-all;
 }
 
 .followersFollowedBtn {

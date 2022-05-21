@@ -262,7 +262,7 @@ span {
   height: 40px;
   border-radius: 50px;
   border: 1px solid #ff6600;
-  background-color: #f5f8fa;
+  background-color: #fff;
   color: #ff6600;
   font-size: 16px;
   font-weight: 400;

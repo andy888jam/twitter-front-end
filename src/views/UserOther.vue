@@ -1,19 +1,30 @@
 <template>
   <div class="UserSelfContainer">
     <Navbar id="Navbar" />
-    <div class="UserSelfMain">
+    <div v-show="currentUser.name" class="UserSelfMain">
       <div class="userTitle">
         <router-link to="/main">
           <img class="backIcon" src="../assets/Vector.png" alt="" />
         </router-link>
         <div class="userInfo">
           <h1 class="infoName">{{ currentUser.name }}</h1>
-          <span class="infoTweetsNumber">{{ currentTweets.length }}則推文</span>
+          <span class="infoTweetsNumber">{{ userTweets.length }}則推文</span>
         </div>
       </div>
       <UserOtherCard :initialCurrentUser="currentUser" />
       <UserOtherTabs :currentUser="currentUser" />
-      <UserTweets :initialCurrentTweets="currentTweets" />
+      <UserTweets
+        v-if="$route.name == 'user-other' && $route.params.type == 'tweets'"
+        :initialCurrentTweets="userTweets"
+      />
+      <Comments
+        v-if="$route.name == 'user-other' && $route.params.type == 'comments'"
+        :currentRepliedTweets="userComments"
+      />
+      <UserLikesTweets
+        v-if="$route.name == 'user-other' && $route.params.type == 'likes'"
+        :initialCurrentTweets="userLikes"
+      />
     </div>
     <PopularUsers id="PopularUsers" />
   </div>
@@ -25,8 +36,10 @@ import PopularUsers from "../components/PopularUsers.vue";
 import UserOtherTabs from "../components/UserOtherTabs.vue";
 import UserOtherCard from "../components/UserOtherCard.vue";
 import UserTweets from "../components/UserTweets.vue";
-import usersAPI from "./../apis/users";
+import usersAPI from "../apis/users";
 import { Toast } from "../utility/helpers";
+import Comments from "../components/Comments.vue";
+import UserLikesTweets from "../components/UserLikesTweets.vue";
 
 export default {
   components: {
@@ -35,11 +48,15 @@ export default {
     UserOtherTabs,
     UserOtherCard,
     UserTweets,
+    Comments,
+    UserLikesTweets,
   },
 
   data() {
     return {
-      currentTweets: [],
+      userTweets: [],
+      userComments: [],
+      userLikes: [],
       currentUser: {
         Followers: -1,
         Followings: -1,
@@ -62,10 +79,21 @@ export default {
       try {
         const { data } = await usersAPI.getUser({ id });
         this.currentUser = data;
-        const response = await usersAPI.getUserTweets({
+
+        const responseUserTweets = await usersAPI.getUserTweets({
           id,
         });
-        this.currentTweets = response.data;
+        this.userTweets = responseUserTweets.data;
+
+        const responseUserComments = await usersAPI.getUserRepliedTweets({
+          id,
+        });
+        this.userComments = responseUserComments.data;
+
+        const responseUserLikes = await usersAPI.getUserLikes({
+          id,
+        });
+        this.userLikes = responseUserLikes.data;
       } catch (error) {
         Toast.fire({
           icon: "error",

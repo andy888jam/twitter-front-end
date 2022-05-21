@@ -65,9 +65,9 @@ const routes = [
   //   beforeEnter: authorizeIsUser
   // },
   {
-    path: '/user/:id/tweets',
-    name: 'user-tweets',
-    component: () => import('../views/UserOtherTweets.vue'),
+    path: '/user/:id/:type',
+    name: 'user-other',
+    component: () => import('../views/UserOther.vue'),
     beforeEnter: (to, from, next) => {
       const currentUser = store.state.currentUser
       if (currentUser && (currentUser.role !== 'user')) {
@@ -80,38 +80,38 @@ const routes = [
       next()
     }
   },
-  {
-    path: '/user/:id/comments',
-    name: 'user-comments',
-    component: () => import('../views/UserOtherComments.vue'),
-    beforeEnter: (to, from, next) => {
-      const currentUser = store.state.currentUser
-      if (currentUser && (currentUser.role !== 'user')) {
-        next('/not-found')
-        return
-      } else if (to.params.id == store.state.currentUser.id) {
-        next('/user/self/comments')
-      }
+  // {
+  //   path: '/user/:id/comments',
+  //   name: 'user-comments',
+  //   component: () => import('../views/UserOtherComments.vue'),
+  //   beforeEnter: (to, from, next) => {
+  //     const currentUser = store.state.currentUser
+  //     if (currentUser && (currentUser.role !== 'user')) {
+  //       next('/not-found')
+  //       return
+  //     } else if (to.params.id == store.state.currentUser.id) {
+  //       next('/user/self/comments')
+  //     }
 
-      next()
-    }
-  },
-  {
-    path: '/user/:id/likes',
-    name: 'user-likes',
-    component: () => import('../views/UserOtherLikes.vue'),
-    beforeEnter: (to, from, next) => {
-      const currentUser = store.state.currentUser
-      if (currentUser && (currentUser.role !== 'user')) {
-        next('/not-found')
-        return
-      } else if (to.params.id == store.state.currentUser.id) {
-        next('/user/self/likes')
-      }
+  //     next()
+  //   }
+  // },
+  // {
+  //   path: '/user/:id/likes',
+  //   name: 'user-likes',
+  //   component: () => import('../views/UserOtherLikes.vue'),
+  //   beforeEnter: (to, from, next) => {
+  //     const currentUser = store.state.currentUser
+  //     if (currentUser && (currentUser.role !== 'user')) {
+  //       next('/not-found')
+  //       return
+  //     } else if (to.params.id == store.state.currentUser.id) {
+  //       next('/user/self/likes')
+  //     }
 
-      next()
-    }
-  },
+  //     next()
+  //   }
+  // },
   {
     path: '/user/:id/followings',
     name: 'user-followings',

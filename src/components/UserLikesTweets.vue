@@ -5,7 +5,7 @@
       v-for="tweet in initialCurrentTweets"
       :key="tweet.id"
     >
-      <router-link :to="{ name: 'user-tweets', params: { id: tweet.Tweet.User.id } }">
+      <router-link :to="{ name: 'user-other', params: { id: tweet.Tweet.User.id , type: 'tweets' } }">
         <img
           class="singleTweetUserImage"
           :src="tweet.Tweet.User.avatar | emptyImage"
@@ -16,12 +16,12 @@
         <div class="singleTweetUserNameGroup">
           <router-link
             class="singleTweetUserName"
-            :to="{ name: 'user-tweets', params: { id: tweet.Tweet.User.id } }"
+            :to="{ name: 'user-other', params: { id: tweet.Tweet.User.id , type: 'tweets' } }"
             >{{ tweet.Tweet.User.name }}</router-link
           >
           <router-link
             class="singleTweetUserAccount"
-            :to="{ name: 'user-tweets', params: { id: tweet.Tweet.User.id } }"
+            :to="{ name: 'user-other', params: { id: tweet.Tweet.User.id , type: 'tweets' } }"
             >@{{ tweet.Tweet.User.account }}</router-link
           >
           <p class="singleTweetCreatedAt">・{{ tweet.Tweet.createdAt | fromNow }}</p>
@@ -88,16 +88,16 @@
                 <router-link
                   class="replyTweetUserName"
                   :to="{
-                    name: 'user-tweets',
-                    params: { id: replyTweetModalTweetInfo.User.id },
+                    name: 'user-other',
+                    params: { id: replyTweetModalTweetInfo.User.id , type: 'tweets' },
                   }"
                   >{{ replyTweetModalTweetInfo.User.name }}</router-link
                 >
                 <router-link
                   class="replyTweetUserAccount"
                   :to="{
-                    name: 'user-tweets',
-                    params: { id: replyTweetModalTweetInfo.User.id },
+                    name: 'user-other',
+                    params: { id: replyTweetModalTweetInfo.User.id , type: 'tweets' },
                   }"
                   >@{{ replyTweetModalTweetInfo.User.account }}</router-link
                 >

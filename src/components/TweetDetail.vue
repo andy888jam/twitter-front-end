@@ -2,7 +2,7 @@
   <div class="TweetDetail">
     <div class="tweetContent">
       <div class="tweetUser">
-        <router-link :to="{name: 'user-tweets', params: {id: initialTweet.User.id}}">
+        <router-link :to="{name: 'user-other', params: {id: initialTweet.User.id , type: 'tweets'}}">
           <img class="tweetUserImage" :src="initialTweet.User.avatar | emptyImage" alt="" />
           <div class="tweetUserNameGroup">
             <p class="tweetUserName">{{ initialTweet.User.name }}</p>
@@ -82,16 +82,16 @@
                 <router-link
                   class="replyTweetUserName"
                   :to="{
-                    name: 'user-tweets',
-                    params: { id: initialTweet.User.id },
+                    name: 'user-other',
+                    params: { id: initialTweet.User.id , type: 'tweets' },
                   }"
                   >{{ initialTweet.User.name }}</router-link
                 >
                 <router-link
                   class="replyTweetUserAccount"
                   :to="{
-                    name: 'user-tweets',
-                    params: { id: initialTweet.User.id },
+                    name: 'user-other',
+                    params: { id: initialTweet.User.id , type: 'tweets' },
                   }"
                   >@{{ initialTweet.User.account }}</router-link
                 >
