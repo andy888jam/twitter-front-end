@@ -1,4 +1,4 @@
-# twitter
+# Twitter Project
 
 ## 關於專案 ****About The Project****
 
@@ -22,6 +22,10 @@
 除了使用Vue外，切版部分均為手刻，沒有使用如Bootstrap開發框架，大型排版使用Grid系統，小型部分微調則是使用flex系統或是Position定位。
 
 ## ****安裝步驟 Project setup****
+可以使用此連結開始使用Twitter：
+https://andy888jam.github.io/twitter-front-end/#/signin
+
+亦可以依照下列步驟安裝到本地執行：
 
 ### Install
 ```
