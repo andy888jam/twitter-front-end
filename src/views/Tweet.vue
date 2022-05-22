@@ -77,6 +77,13 @@ export default {
         });
 
         this.tweetReplies = tweetRepliesResponse.data;
+        this.tweetReplies = this.tweetReplies.map((item) => {
+          item = {
+            ...item,
+            userAvatar: item.userAvatar ? item.userAvatar : 'https://d29fhpw069ctt2.cloudfront.net/icon/image/84587/preview.svg'
+          }
+          return item
+        })
       } catch (error) {
         Toast.fire({
           icon: "error",

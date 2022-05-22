@@ -13,7 +13,7 @@
           }"
         >
           <img
-            :src="(comment.userAvatar || comment.User.avatar) | emptyImage"
+            :src="( comment.userAvatar || comment.User.avatar) | emptyImage"
             alt=""
           />
         </router-link>
