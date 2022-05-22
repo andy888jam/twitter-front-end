@@ -158,6 +158,7 @@ export default {
           title: '推文成功'
         })
         this.isProcessing = false
+        this.$router.go(0)
       } catch (error) {
         this.isProcessing = false
         Toast.fire({
@@ -224,6 +225,10 @@ export default {
   font-size: 20px;
   font-weight: 400;
   color: #fff;
+}
+
+.openPostTweetModalBtn:hover {
+  cursor: pointer;
 }
 
 #postTweetModal {

@@ -106,6 +106,10 @@ export default {
 }
 
 .commentUserImage img {
+  object-fit: cover;
+}
+
+.commentUserImage img {
   height: 50px;
   width: 50px;
   border-radius: 50%;

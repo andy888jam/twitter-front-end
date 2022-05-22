@@ -413,6 +413,7 @@ export default {
 .currentUserReplyUserImg {
   width: 50px;
   height: 50px;
+  object-fit: cover;
   border-radius: 50%;
   margin-right: 8px;
   background-color: #fff;
@@ -469,6 +470,7 @@ export default {
 .replyTweetUserImage {
   width: 50px;
   height: 50px;
+  object-fit: cover;
   border-radius: 50%;
   margin-right: 8px;
   background-color: #fff;

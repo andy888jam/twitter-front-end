@@ -55,7 +55,7 @@
             <router-link
               :to="{
                 name: 'user-other',
-                params: { id: following.followerId, type: 'tweets' },
+                params: { id: following.followingId, type: 'tweets' },
               }"
               class="followingsName"
               >{{ following.followingName }}</router-link
