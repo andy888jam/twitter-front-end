@@ -12,7 +12,8 @@
 
 當然還有些小功能提供使用者慢慢探索，我們希望能藉由這個產品，讓使用者能有良好的社群互動。
 
-![Uploading image.png…]()
+<img width="821" alt="截圖 2022-05-22 下午5 23 43" src="https://user-images.githubusercontent.com/84775995/169688536-ce87fb9d-9244-48c1-a53a-5826eacce3d4.png">
+
 
 ## 開發工具 **Built With**
 
