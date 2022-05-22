@@ -23,9 +23,7 @@
 
 ## ****使用步驟 Project setup****
 1. 可以使用此連結開始使用Twitter：
-https://andy888jam.github.io/twitter-front-end/#/signin
-
-  進入後，請先創建一組帳號密碼以登入，就可以使用該產品各項功能。
+https://andy888jam.github.io/twitter-front-end/#/signin     進入後，請先創建一組帳號密碼以登入，就可以使用該產品各項功能。
 
 2. 亦可以依照下列步驟安裝到本地執行：
 
